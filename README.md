@@ -1,2 +1,3 @@
-# thesis_be
+# thesis_chat
 Thesis project with golang
+Microservice for chat.

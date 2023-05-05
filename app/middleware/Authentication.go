@@ -25,16 +25,21 @@ func (middleware Middleware) Auth(ctx *gin.Context) {
 	response, err := httpClient.Do(req)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": err.Error(),
+		ctx.JSON(http.StatusInternalServerError, helpers.ResponseAPIError{
+			Success: false,
+			Message: "Internal Server Error",
+			Status:  http.StatusInternalServerError,
 		})
 		ctx.Abort()
 		return
 	}
 	if response.StatusCode != 200 {
-		ctx.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
-		})
+		ctx.JSON(http.StatusUnauthorized,
+			helpers.ResponseAPIError{
+				Success: false,
+				Message: "Unauthorized",
+				Status:  http.StatusUnauthorized,
+			})
 		ctx.Abort()
 		return
 	}
