@@ -44,6 +44,7 @@ func CreateUser(ctx *gin.Context) {
 }
 
 func FindUser(ctx *gin.Context) {
+
 	ctx.String(http.StatusNotImplemented, "Implement Pleases!")
 }
 
