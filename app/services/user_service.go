@@ -7,8 +7,10 @@ import (
 	"thesis/config"
 )
 
-func CreateUser(user users.UserDao) (*users.UserDTO, *helpers.ResponseAPIError) {
+type UserService struct {
+}
 
+func (userService UserService) CreateUser(user users.UserDao) (*users.UserDTO, *helpers.ResponseAPIError) {
 	userEntity := users.UserEntity{
 		Email:    user.Email,
 		Password: config.HashPassword(user.Password),
@@ -23,8 +25,14 @@ func CreateUser(user users.UserDao) (*users.UserDTO, *helpers.ResponseAPIError) 
 	return &userDTO, nil
 }
 
-func GetUserByEmail(email string) *users.UserEntity {
+func (userService UserService) GetUserByEmail(email string) *users.UserEntity {
 	var user *users.UserEntity
 	database.Connect().Find(&user, "email = ?", email)
+	return user
+}
+
+func (userService UserService) GetAllUser() []users.UserEntity {
+	var user []users.UserEntity
+	database.Connect().Find(&user)
 	return user
 }

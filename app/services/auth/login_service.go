@@ -7,7 +7,7 @@ import (
 
 func Login(email string, password string) bool {
 	isLogin := false
-	user := services.GetUserByEmail(email)
+	user := services.UserService{}.GetUserByEmail(email)
 	if user != nil {
 		isLogin = config.CheckPasswordHash(password, user.Password)
 	}

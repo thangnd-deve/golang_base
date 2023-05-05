@@ -9,7 +9,23 @@ import (
 )
 
 func GetUser(ctx *gin.Context) {
-	ctx.String(http.StatusNotImplemented, "Implement Pleases!")
+	var userDao []users.UserDTO
+	userEntity := services.UserService{}.GetAllUser()
+	for i := 0; i < len(userEntity); i++ {
+		userDaoLocal := users.UserDTO{
+			Name:  userEntity[i].Name,
+			Email: userEntity[i].Email,
+		}
+		userDao = append(userDao, userDaoLocal)
+	}
+
+	ctx.JSON(http.StatusOK, helpers.ResponseAPI{
+		Success: true,
+		Status:  http.StatusOK,
+		Message: "Success",
+		Data:    userDao,
+	})
+	return
 }
 
 func CreateUser(ctx *gin.Context) {
@@ -24,7 +40,7 @@ func CreateUser(ctx *gin.Context) {
 		ctx.JSON(errorResponse.Status, errorResponse)
 		return
 	}
-	userInfo, err := services.CreateUser(user)
+	userInfo, err := services.UserService{}.CreateUser(user)
 	if err != nil {
 		errorResponse := helpers.ResponseAPIError{
 			Status:  http.StatusBadRequest,
