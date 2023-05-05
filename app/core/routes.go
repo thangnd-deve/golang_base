@@ -20,7 +20,7 @@ func MapUrls() {
 			userRouter.GET("", users.GetUser)
 			userRouter.POST("", users.CreateUser)
 			userRouter.PUT("/:userId", users.UpdateUser)
-			userRouter.DELETE("", users.DeleteUser)
+			userRouter.DELETE("/:userId", users.DeleteUser)
 		}
 	}
 }

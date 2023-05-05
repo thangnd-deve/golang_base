@@ -49,3 +49,14 @@ func (userService UserService) UpdateUser(userId int64, update users.UserUpdate)
 	return &user
 
 }
+
+func (userService UserService) DeleteUser(userId int64) bool {
+	var user users.UserEntity
+	err := database.Connect().Where("id=?", userId).First(&user)
+	if err.Error != nil {
+		return false
+	}
+	database.Connect().Delete(&user)
+	return true
+
+}

@@ -87,5 +87,18 @@ func UpdateUser(ctx *gin.Context) {
 	return
 }
 func DeleteUser(ctx *gin.Context) {
-	ctx.String(http.StatusNotImplemented, "Implement Pleases!")
+	userIdParams := ctx.Param("userId")
+	userId, _ := strconv.Atoi(userIdParams)
+	isDelete := services.UserService{}.DeleteUser(int64(userId))
+	if isDelete != true {
+		errorResponse := helpers.ResponseAPIError{
+			Status:  http.StatusBadRequest,
+			Message: "Not Found",
+			Success: false,
+		}
+		ctx.JSON(errorResponse.Status, errorResponse)
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{})
+	return
 }
