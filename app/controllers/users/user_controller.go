@@ -3,6 +3,7 @@ package users
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"thesis/app/entities/users"
 	"thesis/app/helpers"
 	"thesis/app/services"
@@ -65,7 +66,22 @@ func FindUser(ctx *gin.Context) {
 }
 
 func UpdateUser(ctx *gin.Context) {
-	ctx.String(http.StatusNotImplemented, "Implement Pleases!")
+	userIdParams := ctx.Param("userId")
+	userId, _ := strconv.Atoi(userIdParams)
+	var userUpdateRequest users.UserUpdate
+	_ = ctx.ShouldBindJSON(&userUpdateRequest)
+	userInfo := services.UserService{}.UpdateUser(int64(userId), userUpdateRequest)
+	if userInfo == nil {
+		errorResponse := helpers.ResponseAPIError{
+			Status:  http.StatusBadRequest,
+			Message: "Not Found",
+			Success: false,
+		}
+		ctx.JSON(errorResponse.Status, errorResponse)
+		return
+	}
+	ctx.JSON(http.StatusOK, userInfo)
+	return
 }
 func DeleteUser(ctx *gin.Context) {
 	ctx.String(http.StatusNotImplemented, "Implement Pleases!")

@@ -36,3 +36,16 @@ func (userService UserService) GetAllUser() []users.UserEntity {
 	database.Connect().Find(&user)
 	return user
 }
+
+func (userService UserService) UpdateUser(userId int64, update users.UserUpdate) *users.UserEntity {
+	var user users.UserEntity
+	database.Connect().Where("id=?", userId).First(&user)
+	if &user == nil {
+		return nil
+	}
+	user.Name = update.Name
+	user.Email = update.Email
+	database.Connect().Updates(&user)
+	return &user
+
+}

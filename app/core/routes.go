@@ -19,9 +19,8 @@ func MapUrls() {
 		{
 			userRouter.GET("", users.GetUser)
 			userRouter.POST("", users.CreateUser)
-			userRouter.PUT("/:user_id", users.UpdateUser)
-			userRouter.GET("/:user_id", users.FindUser)
-			userRouter.DELETE("/:user_id", users.DeleteUser)
+			userRouter.PUT("/:userId", users.UpdateUser)
+			userRouter.DELETE("", users.DeleteUser)
 		}
 	}
 }
