@@ -80,7 +80,10 @@ func UpdateUser(ctx *gin.Context) {
 		ctx.JSON(errorResponse.Status, errorResponse)
 		return
 	}
-	ctx.JSON(http.StatusOK, userInfo)
+	ctx.JSON(http.StatusOK, users.UserDTO{
+		Name:  userInfo.Name,
+		Email: userInfo.Email,
+	})
 	return
 }
 func DeleteUser(ctx *gin.Context) {

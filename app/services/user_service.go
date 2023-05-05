@@ -39,8 +39,8 @@ func (userService UserService) GetAllUser() []users.UserEntity {
 
 func (userService UserService) UpdateUser(userId int64, update users.UserUpdate) *users.UserEntity {
 	var user users.UserEntity
-	database.Connect().Where("id=?", userId).First(&user)
-	if &user == nil {
+	err := database.Connect().Where("id=?", userId).First(&user)
+	if err.Error != nil {
 		return nil
 	}
 	user.Name = update.Name
